@@ -1,0 +1,49 @@
+<div class="flex flex-col min-h-screen lg:flex-row bg-gray-900 text-white p-8 shadow-md">
+    <!-- Left Form Section -->
+    <div class="w-full lg:w-1/2 space-y-4">
+        <h2 class="text-3xl font-bold">Have Questions? Our Expert Team is Here.</h2>
+        <p class="text-gray-400">Blandit nullam magna ut suscipit habitasse. Magnis sociosqu finibus senectus pede</p>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            <div class="flex gap-4">
+                <input type="text" formControlName="name" placeholder="Name" class="w-1/2 p-2 bg-gray-800 rounded" />
+                <input type="text" formControlName="company" placeholder="Company"
+                    class="w-1/2 p-2 bg-gray-800 rounded" />
+            </div>
+            <div class="flex gap-4">
+                <input type="text" formControlName="phone" placeholder="Phone" class="w-1/2 p-2 bg-gray-800 rounded" />
+                <input type="email" formControlName="email" placeholder="Email" class="w-1/2 p-2 bg-gray-800 rounded" />
+            </div>
+            <input type="text" formControlName="subject" placeholder="Subject" class="w-full p-2 bg-gray-800 rounded" />
+            <textarea formControlName="message" rows="4" placeholder="Message"
+                class="w-full p-2 bg-gray-800 rounded"></textarea>
+            <button type="submit" class="w-full bg-green-500 p-2 rounded font-semibold">📩 Send Message</button>
+        </form>
+    </div>
+
+    <!-- Right Info Section -->
+    <div class="w-full lg:w-1/2 mt-8 lg:mt-0 lg:pl-12 space-y-4">
+        <button class="bg-green-700 text-sm px-4 py-1 rounded">GET IN TOUCH</button>
+        <h3 class="text-2xl font-semibold">Let’s Discuss Your Investment Goals and Strategy</h3>
+        <p class="text-gray-400">Connect with our experts to craft a personalized strategy that aligns with your
+            financial goals and long-term vision.</p>
+
+        <div class="space-y-2">
+            <div>
+                <strong>📍 Head Office</strong><br />
+                Jln Cempaka Wangi No 22<br />
+                Jakarta - Indonesia
+            </div>
+            <div>
+                <strong>✉️ Email Support</strong><br />
+                support@yourdomain.tld<br />
+                hello@yourdomain.tld
+            </div>
+            <div>
+                <strong>📞 Let’s Talk</strong><br />
+                Phone: +6221.2002.2012<br />
+                Fax: +6221.2002.2013
+            </div>
+        </div>
+    </div>
+</div>

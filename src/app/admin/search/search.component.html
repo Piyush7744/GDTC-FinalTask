@@ -1,0 +1,80 @@
+<div class="flex min-h-screen">
+    <app-sidebar></app-sidebar>
+    <div *ngIf="loading" class="flex items-center ml-[500px]">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading" class="flex-1 p-4 text-center">
+        <div class="py-4 max-h-40">
+            <div class="flex-1 py-4 grid grid-cols-3 lg:grid-cols-3 gap-2 mt-[-25px]">
+
+                <!-- Card no. 1 -->
+                <div
+                    class="bg-gradient-to-r from-blue-500 to-purple-500 grid grid-cols-2 rounded-xl shadow border p-4 gap-2 h-32">
+                    <div class="flex flex-col justify-between items-center justify-center">
+                        <div class="bg-purple-300 text-white mt-4 p-2 rounded-md">
+                            <svg class="w-12 h-12 text-black dark:text-white" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                    d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                            </svg>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-sm flex flex-col text-gray-200 dark:text-purple-300 mt-5">Total Revenue</div>
+                        <div class="text-2xl font-semibold text-white">₹{{totalRevenue}}</div>
+                    </div>
+                </div>
+
+                <!-- Card no. 2 -->
+                <div
+                    class="bg-gradient-to-r from-blue-500 to-purple-500 grid grid-cols-2 rounded-xl shadow border p-4 gap-2 h-32">
+                    <div class="flex flex-col justify-between items-center justify-center">
+                        <div class="bg-purple-300 text-white mt-4 p-2 rounded-md">
+                            <svg class="w-12 h-12 stroke-current " fill="none" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z" />
+                            </svg>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-sm flex flex-col text-gray-200 dark:text-purple-300 mt-5">Total Shares</div>
+                        <div class="text-2xl font-semibold text-white">{{totalShares}}</div>
+                    </div>
+                </div>
+
+                <!-- Card no .3 -->
+                <div
+                    class="bg-gradient-to-r from-blue-500 to-purple-500 grid grid-cols-2 rounded-xl shadow border p-4 gap-2 h-32">
+                    <div class="flex flex-col justify-between items-center justify-center">
+                        <div class="bg-purple-300 text-white mt-4 p-2 rounded-md">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                    d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-sm flex flex-col text-gray-200 dark:text-purple-300 mt-5">Total Users</div>
+                        <div class="text-2xl font-semibold text-white">{{totalUser}}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Search Shares by Name or Symbol</mat-label>
+            <input matInput [(ngModel)]="searchText" placeholder="e.g., TCS, BSE" />
+        </mat-form-field>
+
+        <div *ngIf="filtered()" class="w-full">
+
+        </div>
+    </div>
+</div>

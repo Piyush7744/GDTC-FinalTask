@@ -1,0 +1,51 @@
+<div class="w-full h-screen bg-gradient-to-b from-gray-900 to-gray-950 text-white">
+    <div class="p-6 max-w-7xl mx-auto">
+        <div class="rounded-xl shadow border border-white p-4 mb-5">
+            <h2 class="text-xl font-semibold mb-2">Your Information</h2>
+            <p>Name: {{ user.name }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p><span class="font-semibold">Balance:</span> ₹{{ user.balance }}</p>
+        </div>
+
+
+        <div class="rounded-xl shadow border border-white p-4">
+            <h2 class="text-xl font-semibold mb-2">Your Holdings</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm font-medium text-gray-600">
+                            <th class="px-4 py-2">Symbol</th>
+                            <th class="px-4 py-2">Quantity</th>
+                            <th class="px-4 py-2">Buy Price</th>
+                            <th class="px-4 py-2">Current Price</th>
+                            <th class="px-4 py-2">Total Value</th>
+                            <th class="px-4 py-2">Profit/Loss</th>
+                            <th class="px-4 py-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let share of holdings;let i = index" class="border-b hover:bg-gray-600 text-lg">
+                            <td class="px-4 py-2 font-medium">{{ share.symbol }}</td>
+                            <td class="px-4 py-2">{{ share.quantity }}</td>
+                            <td class="px-4 py-2">{{pricePrev[i]}}</td>
+                            <td class="px-4 py-2">₹{{ share.price }}</td>
+                            <td class="px-4 py-2">₹{{ share.total }}</td>
+                            <td [ngClass]="pnl[i] > 0 ? 'text-green-400' : 'text-red-400'" class="px-4 py-2">{{pnl[i]}}
+                            </td>
+                            <td class="px-4 py-2">
+                                <button (click)="sellShare(share)" routerLink="/shareDetails"
+                                    class="px-3 py-1 mr-2 bg-green-500 hover:bg-green-600 text-white rounded-md">
+                                    Buy
+                                </button>
+                                <button (click)="sellShare(share)" routerLink="/shareDetails"
+                                    class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md">
+                                    Sell
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

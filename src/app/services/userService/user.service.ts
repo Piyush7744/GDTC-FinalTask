@@ -1,0 +1,130 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { SharesService } from '../shareService/shares.service';
+import { Router } from '@angular/router';
+import { jwtDecode } from "jwt-decode";
+
+export interface User {
+  name: string,
+  email: string,
+  aadhar: string,
+  balance: number,
+  birth_date: string
+}
+
+interface TokenPayload {
+  sub: string;
+  role: string;
+  exp: number;
+}
+
+export interface Order {
+  name: string,
+  price: number,
+  quantity: number,
+  total: number,
+  symbol: string,
+  order_date: string
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private apiUrl = 'http://localhost:8000/';
+  constructor(private http: HttpClient, private router: Router) { }
+  userData: User = {
+    name: "",
+    email: "",
+    aadhar: "",
+    balance: 0,
+    birth_date: ""
+  };
+  public status = new BehaviorSubject<boolean>(this.isLoggedIn());
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+
+  }
+
+  getStatus(): Observable<boolean> {
+    return this.status.asObservable();
+  }
+
+  register(userData: any) {
+    return this.http.post(`${this.apiUrl}register`, userData);
+  }
+
+  login(data: any): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('username', data.username);
+    body.set('password', data.password);
+
+    return this.http.post(`${this.apiUrl}login`,
+      body.toString(), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    ).pipe(
+      tap((res: any) => {
+        localStorage.setItem("token", res.access_token);
+        this.status.next(true)
+        const token = localStorage.getItem("token");
+        if (token) {
+          const decoded = jwtDecode<TokenPayload>(token);
+          if (decoded.role === "admin") {
+            localStorage.setItem("role", decoded.role);
+            this.router.navigate(['/admin/allOrders']);
+          } else {
+            localStorage.setItem("role", decoded.role);
+            this.router.navigate(['']);
+          }
+        }
+      })
+    )
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.status;
+    this.router.navigate(['/login']);
+  }
+
+
+  getUserData() {
+    // const token = localStorage.getItem("token")
+    // const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    // this.http.get<any[]>(`${this.apiUrl}user/`, { headers }).subscribe(data => {
+    //   this.userData = data;
+    //   console.log(data);
+    // })
+
+    this.http.get<User>(`${this.apiUrl}user/`).subscribe(data => {
+      this.userData = data;
+      console.log(data);
+    })
+  }
+
+  getUser() {
+    return this.http.get<User>(`${this.apiUrl}user/`);
+  }
+
+  getUserOrders() {
+    return this.http.get<Order[]>(`${this.apiUrl}userOrders`);
+  }
+
+  getUserShares() {
+    return this.http.get<Order[]>(`${this.apiUrl}userShares`);
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.status.next(false);
+  }
+
+  updateBalance(newBalance: number) {
+    return this.http.put(`${this.apiUrl}user/balance`, { balance: newBalance });
+  }
+}
+

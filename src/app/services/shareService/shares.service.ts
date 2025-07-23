@@ -1,0 +1,66 @@
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface ShareInfo {
+  companyName: string;
+  symbol: string;
+  lastPrice: number;
+  pChange:number;
+  meta:{
+    companyName:string;
+  }
+}
+export interface Share {
+  Date: string;    // Use `string` here because it comes as an ISO string from API
+  Close: number;
+  High: number;
+  Low: number;
+  Open: number;
+  Volume: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SharesService implements OnInit {
+  share: any = [];
+  currentShare: any = ""
+  private apiUrl = 'http://localhost:8000/';
+
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    //this.fetchData();
+  }
+
+  fetchData() {
+    return this.http.get<ShareInfo[]>(this.apiUrl + "sharess");
+  }
+
+  getData() {
+    const baseUrl = `${this.apiUrl}shareDetails/${this.currentShare.symbol}.NS`
+    // const baseUrl = `http://localhost:8000/shareDetails/BEL.NS`
+    console.log(baseUrl)
+    console.log(this.currentShare)
+    return this.http.get<Share[]>(baseUrl)
+  }
+  
+  getInfo() {
+    const baseUrl2 = `${this.apiUrl}shareInfo/${this.currentShare.symbol}.NS`
+    // const baseUrl2 = `http://localhost:8000/shareInfo/BEL.NS`
+    return this.http.get(baseUrl2)
+  }
+
+  order(s_id:string,quantity1:number,price1:number){  
+    return this.http.post(`${this.apiUrl}order`,{sid:s_id,quantity:quantity1,price:price1})
+  }
+
+  sell(s_id:string,quantity1:number,price1:number){
+    return this.http.post(`${this.apiUrl}sell`,{sid:s_id,quantity:quantity1,price:price1})
+  }
+
+  contact(data:any){
+    return this.http.post(`${this.apiUrl}contact`,data);
+  }
+}

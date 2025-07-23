@@ -1,0 +1,38 @@
+<div class="flex min-h-screen">
+    <app-sidebar></app-sidebar>
+    <div class="flex-1 p-4 text-center">
+        <mat-card class="m-4 p-4">
+            <h2 class="text-xl font-semibold mb-4">User Details</h2>
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.name }} </mat-cell>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                    <mat-cell *matCellDef="let user">{{ user.email }} </mat-cell>
+                </ng-container>
+
+                <!-- Aadhar Column -->
+                <ng-container matColumnDef="aadhar">
+                    <mat-header-cell *matHeaderCellDef> Aadhar </mat-header-cell>
+                    <mat-cell *matCellDef="let user"> {{ user.aadhar }} </mat-cell>
+                </ng-container>
+
+                <!-- Balance Column -->
+                <ng-container matColumnDef="balance">
+                    <mat-header-cell *matHeaderCellDef> Balance </mat-header-cell>
+                    <mat-cell *matCellDef="let user"> ₹{{ user.balance }} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+            </mat-table>
+        </mat-card>
+    </div>
+</div>
