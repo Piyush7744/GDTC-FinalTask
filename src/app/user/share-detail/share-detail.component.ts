@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SharesService, Share } from '../services/shareService/shares.service';
+import { SharesService, Share } from '../../services/shareService/shares.service';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from 'chart.js';
-import { User, UserService } from '../services/userService/user.service';
+import { User, UserService } from '../../services/userService/user.service';
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 
 @Component({

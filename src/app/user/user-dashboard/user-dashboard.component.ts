@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, Order } from '../services/userService/user.service';
-import { SharesService } from '../services/shareService/shares.service';
+import { UserService, Order } from '../../services/userService/user.service';
+import { SharesService } from '../../services/shareService/shares.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -15,7 +15,8 @@ export class UserDashboardComponent implements OnInit {
   pricePrev: number[] = [];
   totalNow: number[] = [];
   totalPrev: number[] = [];
-  pnl:number[]=[];
+  pnl: number[] = [];
+  TotalHolding:number=0;
   constructor(private service: UserService, private shares: SharesService) { }
 
   ngOnInit(): void {
@@ -43,16 +44,16 @@ export class UserDashboardComponent implements OnInit {
   }
 
   sellShare(share: any) {
-    const trimmed = {...share};
-    trimmed.symbol = trimmed.symbol.replace('.NS','');
+    const trimmed = { ...share };
+    trimmed.symbol = trimmed.symbol.replace('.NS', '');
     this.shares.currentShare = trimmed;
   }
 
-  profitAndLoss(){
-    for(let i=0;i<this.order.length;i++){
-      this.totalPrev[i] = this.pricePrev[i] * this.quantity[i]; 
+  profitAndLoss() {
+    for (let i = 0; i < this.totalNow.length; i++){
+      this.totalPrev[i] = this.pricePrev[i] * this.quantity[i];
       this.pnl[i] = this.totalNow[i] - this.totalPrev[i];
+      this.TotalHolding = this.TotalHolding + this.totalNow[i];
     }
-    console.log(this.pnl);
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SharesService, ShareInfo } from '../services/shareService/shares.service';
+import { SharesService, ShareInfo } from '../../services/shareService/shares.service';
 import { PageEvent } from '@angular/material/paginator';
 
 
@@ -13,14 +13,14 @@ export class AllSharesComponent {
   public searchText = ""
   page: number = 1;
   pageSize: number = 12;
-  loading:boolean=true;
+  loading: boolean = true;
 
   constructor(private service: SharesService) { }
 
   ngOnInit(): void {
     this.service.fetchData().subscribe(data => {
       this.shares = data;
-      this.loading=false;
+      this.loading = false;
       console.log(this.shares);
     });
   }

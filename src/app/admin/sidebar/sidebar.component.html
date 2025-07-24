@@ -2,7 +2,7 @@
 
     <div class="p-4">
         <button (click)="toggleSidebar()" class="text-gray-600 hover:text-black">
-            <!-- Hamburger Icon -->
+          
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -11,7 +11,7 @@
     </div>
 
     <nav class="flex flex-col gap-4 mt-4">
-        <!-- User -->
+        
         <a routerLink="/admin/allUsers" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer">
             <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -20,7 +20,7 @@
             <span *ngIf="isExpanded" class="text-gray-800 font-medium">User</span>
         </a>
 
-        <!-- Transaction -->
+      
         <a routerLink="/admin/allOrders" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer">
             <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -28,7 +28,7 @@
             <span *ngIf="isExpanded" class="text-gray-800 font-medium">Transaction</span>
         </a>
 
-        <!-- Contacts -->
+       
         <a routerLink="/admin/allContacts" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer">
             <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M3 9h18M9 21V9" />

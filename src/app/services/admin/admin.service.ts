@@ -9,7 +9,17 @@ export interface Order {
   quantity: number,
   total: number,
   symbol: string,
-  order_date: string
+  order_date: string,
+  email:string
+}
+
+export interface Contact{
+  name:string,
+  company:string,
+  phone:string,
+  email:string,
+  subject:string,
+  message:string,
 }
 
 @Injectable({
@@ -28,11 +38,11 @@ export class AdminService implements OnInit{
   }
 
   getOrderData(){
-    return this.http.get<Order>(`${this.url}allOrders`);
+    return this.http.get<Order[]>(`${this.url}allOrders`);
   }
 
   getContacts(){
-    return this.http.get(`${this.url}allContact`);
+    return this.http.get<Contact[]>(`${this.url}allContact`);
   }
 
 }

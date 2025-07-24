@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.user.getUser().subscribe(data => {
       this.userData = data;
+      this.balance = this.userData.balance;
     })
     this.service.getStatus().subscribe(data=>{
       this.logged = data;

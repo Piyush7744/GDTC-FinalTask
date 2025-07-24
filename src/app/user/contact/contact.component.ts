@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { SharesService } from '../services/shareService/shares.service';
+import { SharesService } from '../../services/shareService/shares.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-contact',
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ContactComponent {
   contactForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: SharesService,private router:Router) {
+  constructor(private fb: FormBuilder, private service: SharesService, private router: Router) {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       company: [''],
