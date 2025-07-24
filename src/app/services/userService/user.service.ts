@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { SharesService } from '../shareService/shares.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from "jwt-decode";
 
@@ -44,7 +43,6 @@ export class UserService {
   public status = new BehaviorSubject<boolean>(this.isLoggedIn());
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
-
   }
 
   getStatus(): Observable<boolean> {
@@ -93,13 +91,6 @@ export class UserService {
 
 
   getUserData() {
-    // const token = localStorage.getItem("token")
-    // const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
-    // this.http.get<any[]>(`${this.apiUrl}user/`, { headers }).subscribe(data => {
-    //   this.userData = data;
-    //   console.log(data);
-    // })
-
     this.http.get<User>(`${this.apiUrl}user/`).subscribe(data => {
       this.userData = data;
       console.log(data);

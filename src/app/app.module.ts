@@ -27,7 +27,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FooterComponent } from './footer/footer.component';
 import { ContactComponent } from './user/contact/contact.component';
-import { ServicesComponent } from './services/services.component';
 import { AboutComponent } from './user/about/about.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -47,7 +46,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     UserDashboardComponent,
     FooterComponent,
     ContactComponent,
-    ServicesComponent,
     AboutComponent,
   ],
   imports: [

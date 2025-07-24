@@ -145,7 +145,8 @@ export class ShareDetailComponent implements OnInit {
       this.service.sell(symbol, this.quantity, price).subscribe({
         next: (res) => {
           this.user.getUserData();
-          alert("Successfully sold shares")
+          alert("Successfully sold shares");
+          this.showModal = false;
         },
         error: (err) => console.error(err)
       })
@@ -166,7 +167,8 @@ export class ShareDetailComponent implements OnInit {
       this.service.order(symbol, this.quantity, price).subscribe({
         next: (res) => {
           this.user.getUserData();
-          alert("Successfully bought shares")
+          alert("Successfully bought shares");
+          this.showModal = false;
         },
         error: (err) => console.error(err)
       })

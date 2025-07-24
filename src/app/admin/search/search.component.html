@@ -69,8 +69,8 @@
         </div>
 
         <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Search Shares by Name or Symbol</mat-label>
-            <input matInput [(ngModel)]="searchText" (input)="filtered()" placeholder="e.g., TCS, BSE" />
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchText" (input)="filtered()" placeholder="e.g., name, symbol" />
         </mat-form-field>
 
         <div *ngIf="!loading && filteredData.length === 0" class="text-center text-red-500 mt-4">
@@ -80,14 +80,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div *ngFor="let item of filteredData" class="bg-white shadow rounded-lg p-4 border border-gray-100">
                 <div *ngIf="item.stype === 'user'">
-                    <h2 class="text-lg font-semibold text-blue-700 mb-2">👤 User</h2>
+                    <h2 class="text-lg font-semibold text-blue-700 mb-2"> User</h2>
                     <p>Email: {{ item.email }}</p>
                     <p><strong>Aadhar:</strong> {{ item.aadhar }}</p>
                     <p><strong>Balance:</strong> ₹{{ item.balance }}</p>
                 </div>
 
                 <div *ngIf="item.stype === 'order'">
-                    <h2 class="text-lg font-semibold text-green-700 mb-2">🧾 Order</h2>
+                    <h2 class="text-lg font-semibold text-green-700 mb-2"> Order</h2>
                     <p><strong>Order ID:</strong> {{ item.order_id }}</p>
                     <p><strong>User Email:</strong> {{ item.user.email }}</p>
                     <p><strong>Symbol:</strong> {{ item.shares.Symbol }}</p>
@@ -95,7 +95,7 @@
                 </div>
 
                 <div *ngIf="item.stype === 'contact'">
-                    <h2 class="text-lg font-semibold text-purple-700 mb-2">📞 Contact</h2>
+                    <h2 class="text-lg font-semibold text-purple-700 mb-2"> Contact</h2>
                     <p>Name: {{ item.name }}</p>
                     <p>Email: {{ item.email }}</p>
                     <p><strong>Subject:</strong> {{ item.subject }}</p>
