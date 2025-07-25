@@ -1,12 +1,12 @@
 <nav class="border-gray-200 bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-5">
-        <a href="" class="flex items-center  space-x-3 rtl:space-x-reverse">
+        <a href="" class="flex items-center">
             <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CapWise</span>
         </a>
-        <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <div class="flex md:order-2 md:space-x-0">
             <button *ngIf="!logged" type="button" routerLink="/register"
-                class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-500 dark:hover:bg-green-700 dark:focus:ring-green-800">Register</button>
+                class="text-white bg-green-500 hover:bg-green-800 font-medium rounded-lg px-4 py-2 text-center">Register</button>
             <div *ngIf="logged" class="relative group inline-block">
 
                 <div class="relative group inline-block">
@@ -49,6 +49,10 @@
                         class="block !text-lg  py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-green-500 dark:text-white">Contact</a>
                 </li>
             </ul>
+
+            <ng-content *ngIf="userLogged" select="[User]"></ng-content>
+            <ng-content *ngIf="adminLogged" select="[Admin]"></ng-content>
+
         </div>
     </div>
 </nav>

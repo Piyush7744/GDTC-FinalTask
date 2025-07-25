@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { Order } from 'src/app/services/userService/user.service';
 
 @Component({
   selector: 'app-home1',
@@ -9,7 +10,7 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 })
 export class Home1Component implements OnInit {
   loading:boolean = true;
-  dataSource: any = new MatTableDataSource<any>();
+  dataSource= new MatTableDataSource<Order>();
   displayedColumns: string[] = ['order_id', 'date', 'email', 'symbol', 'total','type'];
   constructor(private service: AdminService) { }
 
@@ -17,7 +18,6 @@ export class Home1Component implements OnInit {
     this.service.getOrderData().subscribe(data => {
       this.dataSource.data = data;
       this.loading = false;
-      console.log(this.dataSource.data);
     })
   }
 }

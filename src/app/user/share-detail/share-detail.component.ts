@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SharesService, Share } from '../../services/shareService/shares.service';
+import { SharesService, Share, ShareInformation } from '../../services/shareService/shares.service';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from 'chart.js';
 import { User, UserService } from '../../services/userService/user.service';
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
+
 
 @Component({
   selector: 'app-share-detail',
@@ -12,7 +13,20 @@ Chart.register(LineController, LineElement, PointElement, LinearScale, Title, Ca
 export class ShareDetailComponent implements OnInit {
   currShare: Share[] = [];
   LineChart: any;
-  shareInfo: any;
+
+  shareInfo: ShareInformation = {
+    shortName: "",
+    industry: "",
+    dayLow: 0,
+    dayHigh: 0,
+    currentPrice: 0,
+    previousClose: 0,
+    volume: 0,
+    recommendationKey: "",
+    longBusinessSummary: "",
+    symbol: ""
+  };
+
   showModal: boolean = false;
   quantity: number = 1;
   currPrice: number = 0;
@@ -23,16 +37,18 @@ export class ShareDetailComponent implements OnInit {
   constructor(public service: SharesService, private user: UserService) { }
 
   ngOnInit(): void {
-    this.user.getUserData();
+    if (localStorage.getItem("token")) {
+      this.user.getUserData();
+    }
+
     this.service.getInfo().subscribe(data => {
       this.shareInfo = data;
       this.currPrice = this.shareInfo.currentPrice;
       this.total1 = this.currPrice;
-      console.log("Share Info", data);
     })
+
     this.service.getData().subscribe((data: Share[]) => {
       this.currShare = data;
-      console.log("Share Prices", data);
       this.loading = false;
 
       const labels = this.currShare.map(item => new Date(item.Date).toLocaleDateString());
@@ -55,7 +71,6 @@ export class ShareDetailComponent implements OnInit {
           ]
         },
         options: {
-          responsive: true,
           maintainAspectRatio: false,
           plugins: {
             title: {
@@ -83,7 +98,7 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
-  filterData(range: '1m' | '3m' | '6m' | '1y') {
+  filterData(range: '1m' | '3m' | '6m' | '1y'){
     const today = new Date();
     let fromDate = new Date();
 

@@ -9,7 +9,6 @@ import { AdminService } from 'src/app/services/admin/admin.service';
   styleUrls: ['./all-users.component.css']
 })
 export class AllUsersComponent implements OnInit{
-    users:User[]=[];
     dataSource = new MatTableDataSource<User>();
     displayedColumns:string[]=['name','email','aadhar','balance'];
     constructor(private service : AdminService){}
@@ -17,7 +16,6 @@ export class AllUsersComponent implements OnInit{
     ngOnInit(): void {
       this.service.getUserData().subscribe(data=>{
         this.dataSource.data = data;
-        console.log(this.dataSource.data);
       })
     }
 }

@@ -16,7 +16,6 @@ export class LoginComponent {
   login() {
     this.service.login(this.loginData).subscribe({
       next: (res) => {
-        console.log("User Logged in", res)
         localStorage.setItem('token', res.access_token);
         this.service.isLoggedIn();
       },

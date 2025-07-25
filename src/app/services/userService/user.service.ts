@@ -12,6 +12,10 @@ export interface User {
   birth_date: string
 }
 
+interface RegisterUser extends User{
+  balance : number
+}
+
 interface TokenPayload {
   sub: string;
   role: string;
@@ -40,6 +44,8 @@ export class UserService {
     balance: 0,
     birth_date: ""
   };
+
+
   public status = new BehaviorSubject<boolean>(this.isLoggedIn());
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -49,7 +55,7 @@ export class UserService {
     return this.status.asObservable();
   }
 
-  register(userData: any) {
+  register(userData: RegisterUser) {
     return this.http.post(`${this.apiUrl}register`, userData);
   }
 
@@ -86,6 +92,13 @@ export class UserService {
   logOut() {
     localStorage.clear();
     this.status;
+    this.userData = {
+      name: "",
+      email: "",
+      aadhar: "",
+      balance: 0,
+      birth_date: ""
+    };
     this.router.navigate(['/login']);
   }
 
@@ -93,7 +106,6 @@ export class UserService {
   getUserData() {
     this.http.get<User>(`${this.apiUrl}user/`).subscribe(data => {
       this.userData = data;
-      console.log(data);
     })
   }
 

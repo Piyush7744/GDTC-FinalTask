@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin/admin.service';
+import { AdminService, Contact } from 'src/app/services/admin/admin.service';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -8,14 +8,13 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./all-contacts.component.css']
 })
 export class AllContactsComponent implements OnInit {
-  dataSource: any = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<Contact>();
   displayedColumns: string[] = ['email','phone','company','subject','message'];
   constructor(private service: AdminService) { }
 
   ngOnInit(): void {
     this.service.getContacts().subscribe(data => {
       this.dataSource.data = data;
-      console.log(this.dataSource.data);
     })
   }
 }

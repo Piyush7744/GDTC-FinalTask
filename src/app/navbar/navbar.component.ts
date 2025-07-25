@@ -16,16 +16,24 @@ export class NavbarComponent implements OnInit {
     balance: 0,
     birth_date: ""
   };
-  toggle:boolean = false;
+  userLogged: boolean = false;
+  adminLogged: boolean = false;
+  toggle: boolean = false;
   constructor(private service: UserService, private user: UserService) {
   }
 
   ngOnInit(): void {
-    this.user.getUser().subscribe(data => {
-      this.userData = data;
-      this.balance = this.userData.balance;
-    })
-    this.service.getStatus().subscribe(data=>{
+    if ((localStorage.getItem("token")) && (localStorage.getItem("role") == "user")) {
+      this.userLogged = true;
+      this.user.getUser().subscribe(data => {
+        this.userData = data;
+        this.balance = this.userData.balance;
+
+      })
+    } else if ((localStorage.getItem("token")) && (localStorage.getItem("role") == "admin")) {
+      this.adminLogged = true;
+    }
+    this.service.getStatus().subscribe(data => {
       this.logged = data;
     })
 
@@ -34,10 +42,12 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.logged = false;
+    this.userLogged = false;
+    this.adminLogged = false;
     this.service.logOut();
   }
 
-  toggled(){
+  toggled() {
     this.toggle = !this.toggle;
   }
 

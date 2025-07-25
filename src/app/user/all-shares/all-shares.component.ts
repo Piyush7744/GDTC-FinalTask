@@ -21,20 +21,18 @@ export class AllSharesComponent {
     this.service.fetchData().subscribe(data => {
       this.shares = data;
       this.loading = false;
-      console.log(this.shares);
     });
   }
 
   getFilteredShares(): ShareInfo[] {
-    console.log(this.searchText);
     if (!this.searchText.trim()) {
       return [];
     }
 
     const text = this.searchText.toLowerCase();
     const filtered = this.shares.filter((share: ShareInfo) =>
-      share.meta.companyName.toLocaleLowerCase().includes(text) ||
-      share.symbol.toLocaleLowerCase().includes(text)
+      share.meta.companyName.toLowerCase().includes(text) ||
+      share.symbol.toLowerCase().includes(text)
     );
     return filtered;
   }
@@ -54,19 +52,11 @@ export class AllSharesComponent {
     return this.shares.length;
   }
 
-  changePage(delta: number) {
-    const newPage = this.page + delta;
-    if (newPage >= 1 && newPage <= this.totalPages) {
-      this.page = newPage;
-    }
-  }
-
   onPageChange(event: PageEvent) {
     this.page = event.pageIndex + 1;
   }
 
-  viewDetails(data: any) {
-    console.log(data);
+  viewDetails(data: ShareInfo) {
     this.service.currentShare = data;
   }
 }

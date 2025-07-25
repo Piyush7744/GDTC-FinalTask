@@ -34,11 +34,11 @@
                             <td [ngClass]="pnl[i] > 0 ? 'text-green-400' : 'text-red-400'" class="px-4 py-2">{{pnl[i]}}
                             </td>
                             <td class="px-4 py-2">
-                                <button (click)="sellShare(share)" routerLink="/shareDetails"
+                                <button (click)="sellShare(share.symbol)" routerLink="/shareDetails"
                                     class="px-3 py-1 mr-2 bg-green-500 hover:bg-green-600 text-white rounded-md">
                                     Buy
                                 </button>
-                                <button (click)="sellShare(share)" routerLink="/shareDetails"
+                                <button (click)="sellShare(share.symbol)" routerLink="/shareDetails"
                                     class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-md">
                                     Sell
                                 </button>

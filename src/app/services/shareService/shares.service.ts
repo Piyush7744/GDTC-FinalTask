@@ -6,13 +6,27 @@ export interface ShareInfo {
   companyName: string;
   symbol: string;
   lastPrice: number;
-  pChange:number;
-  meta:{
-    companyName:string;
+  pChange: number;
+  meta: {
+    companyName: string;
   }
 }
+
+export interface ShareInformation {
+  shortName: string,
+  industry: string,
+  dayLow: number,
+  dayHigh: number,
+  currentPrice: number,
+  previousClose: number,
+  volume: number,
+  recommendationKey: string,
+  longBusinessSummary: string,
+  symbol: string
+}
+
 export interface Share {
-  Date: string;    // Use `string` here because it comes as an ISO string from API
+  Date: string; 
   Close: number;
   High: number;
   Low: number;
@@ -24,14 +38,21 @@ export interface Share {
   providedIn: 'root'
 })
 export class SharesService implements OnInit {
-  share: any = [];
-  currentShare: any = ""
+  currentShare: ShareInfo = {
+    companyName: "",
+    symbol: "",
+    lastPrice: 0,
+    pChange: 0,
+    meta: {
+      companyName: ""
+    }
+  }
   private apiUrl = 'http://localhost:8000/';
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    //this.fetchData();
+
   }
 
   fetchData() {
@@ -40,27 +61,25 @@ export class SharesService implements OnInit {
 
   getData() {
     const baseUrl = `${this.apiUrl}shareDetails/${this.currentShare.symbol}.NS`
-    // const baseUrl = `http://localhost:8000/shareDetails/BEL.NS`
-    console.log(baseUrl)
-    console.log(this.currentShare)
+
     return this.http.get<Share[]>(baseUrl)
   }
-  
+
   getInfo() {
     const baseUrl2 = `${this.apiUrl}shareInfo/${this.currentShare.symbol}.NS`
-    // const baseUrl2 = `http://localhost:8000/shareInfo/BEL.NS`
-    return this.http.get(baseUrl2)
+
+    return this.http.get<ShareInformation>(baseUrl2)
   }
 
-  order(s_id:string,quantity1:number,price1:number){  
-    return this.http.post(`${this.apiUrl}order`,{sid:s_id,quantity:quantity1,price:price1})
+  order(s_id: string, quantity1: number, price1: number) {
+    return this.http.post(`${this.apiUrl}order`, { sid: s_id, quantity: quantity1, price: price1 })
   }
 
-  sell(s_id:string,quantity1:number,price1:number){
-    return this.http.post(`${this.apiUrl}sell`,{sid:s_id,quantity:quantity1,price:price1})
+  sell(s_id: string, quantity1: number, price1: number) {
+    return this.http.post(`${this.apiUrl}sell`, { sid: s_id, quantity: quantity1, price: price1 })
   }
 
-  contact(data:any){
-    return this.http.post(`${this.apiUrl}contact`,data);
+  contact(data: any) {
+    return this.http.post(`${this.apiUrl}contact`, data);
   }
 }

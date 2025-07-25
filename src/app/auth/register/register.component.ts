@@ -14,12 +14,12 @@ export class RegisterComponent {
     password: "",
     aadhar: "",
     birth_date: "",
+    balance:10000
   }
   constructor(private service: UserService, private router: Router) { }
   register() {
     this.service.register(this.user).subscribe({
       next: (res) => {
-        console.log("User registered", res)
         this.router.navigate(['/login'])
       },
       error: (err) => console.error('Error during registration', err)

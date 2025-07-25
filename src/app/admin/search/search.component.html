@@ -92,6 +92,7 @@
                     <p><strong>User Email:</strong> {{ item.user.email }}</p>
                     <p><strong>Symbol:</strong> {{ item.shares.Symbol }}</p>
                     <p>Total: ₹{{ item.total }}</p>
+                    <p [ngClass]=" item.type == 'Buy' ? 'text-green-300' : 'text-red:300'">Order Type:{{item.type}}</p>
                 </div>
 
                 <div *ngIf="item.stype === 'contact'">
