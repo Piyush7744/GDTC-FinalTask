@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharesService, Share, ShareInformation } from '../../services/shareService/shares.service';
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from 'chart.js';
 import { User, UserService } from '../../services/userService/user.service';
+import { ActivatedRoute } from '@angular/router';
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 
 
@@ -33,24 +34,35 @@ export class ShareDetailComponent implements OnInit {
   total1: number = 0;
   loading: boolean = true;
   userData: User | null = null;
-
-  constructor(public service: SharesService, private user: UserService) { }
+  julyData: any;
+  symbol = ""
+  constructor(public service: SharesService, private user: UserService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     if (localStorage.getItem("token")) {
       this.user.getUserData();
     }
 
-    this.service.getInfo().subscribe(data => {
-      this.shareInfo = data;
-      this.currPrice = this.shareInfo.currentPrice;
-      this.total1 = this.currPrice;
-    })
+    this.route.params.subscribe(params => {
+      this.symbol = params['id'];
+      this.service.getInfo(this.symbol).subscribe(data => {
+        this.shareInfo = data;
+        this.currPrice = this.shareInfo.currentPrice;
+        this.total1 = this.currPrice;
+      })
 
-    this.service.getData().subscribe((data: Share[]) => {
+    });
+
+    setInterval(() => {
+      this.getShareData();
+      setInterval;
+    }, 5000);
+
+
+    this.service.getData(this.symbol).subscribe((data: Share[]) => {
+      console.log("calling from inside ngonit")
       this.currShare = data;
       this.loading = false;
-
       const labels = this.currShare.map(item => new Date(item.Date).toLocaleDateString());
       const closePrices = this.currShare.map(item => item.Close);
 
@@ -98,7 +110,19 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
-  filterData(range: '1m' | '3m' | '6m' | '1y'){
+  getShareData() {
+    this.service.getInfo(this.symbol).subscribe(data => {
+      if (this.LineChart) {
+        const priceData = this.LineChart.data.datasets[0].data;
+        priceData.pop();
+        priceData.push(data.currentPrice);
+        this.LineChart.data.datasets[0].data = priceData;
+        this.LineChart.update();
+      }
+    })
+  }
+
+  filterData(range: '1m' | '3m' | '6m' | '1y') {
     const today = new Date();
     let fromDate = new Date();
 
@@ -137,6 +161,9 @@ export class ShareDetailComponent implements OnInit {
 
 
   openModal() {
+    // const rm = Math.ceil(Math.random() * 28);
+    // console.log(rm);
+    // this.julyData = this.currShare.filter(item => new Date(item.Date).toLocaleDateString() == `${rm}/5/2025`);
     if (localStorage.length > 0) {
       this.showModal = true;
     } else {
@@ -169,31 +196,33 @@ export class ShareDetailComponent implements OnInit {
   }
 
 
-  buyNow(symbol: any, price: number) {
+  buyNow(symbol: any, price1: number) {
     console.log(symbol);
     console.log(this.quantity);
     if (this.quantity < 1) {
-      alert("Add some shares to buy")
-    }
-    if (this.user.userData.balance < this.total1) {
-      alert("Insufficient Balance")
+      alert("Add some shares to buy");
     } else {
-      const new_bal = this.user.userData.balance - this.total1;
-      this.service.order(symbol, this.quantity, price).subscribe({
-        next: (res) => {
-          this.user.getUserData();
-          alert("Successfully bought shares");
-          this.showModal = false;
-        },
-        error: (err) => console.error(err)
-      })
-      this.user.updateBalance(new_bal).subscribe({
-        next: (res) => console.log("Shares bought and updated balance", res),
-        error: (err) => {
-          console.error(err);
-          alert("Error uploading balance")
-        }
-      })
+      if (this.user.userData.balance < this.total1) {
+        alert("Insufficient Balance")
+      } else {
+        const new_bal = this.user.userData.balance - this.total1;
+        console.log(price1);
+        this.service.order(symbol, this.quantity, price1).subscribe({
+          next: (res) => {
+            this.user.getUserData();
+            alert("Successfully bought shares");
+            this.showModal = false;
+          },
+          error: (err) => console.error(err)
+        })
+        this.user.updateBalance(new_bal).subscribe({
+          next: (res) => console.log("Shares bought and updated balance", res),
+          error: (err) => {
+            console.error(err);
+            alert("Error uploading balance")
+          }
+        })
+      }
     }
   }
 

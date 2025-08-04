@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay, take } from 'rxjs';
 
 export interface ShareInfo {
   companyName: string;
@@ -26,7 +26,7 @@ export interface ShareInformation {
 }
 
 export interface Share {
-  Date: string; 
+  Date: string;
   Close: number;
   High: number;
   Low: number;
@@ -49,6 +49,8 @@ export class SharesService implements OnInit {
   }
   private apiUrl = 'http://localhost:8000/';
 
+  cachedShares$: Observable<Share[]> | undefined;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -59,14 +61,21 @@ export class SharesService implements OnInit {
     return this.http.get<ShareInfo[]>(this.apiUrl + "sharess");
   }
 
-  getData() {
-    const baseUrl = `${this.apiUrl}shareDetails/${this.currentShare.symbol}.NS`
-
-    return this.http.get<Share[]>(baseUrl)
+  getData(symbol: string) {
+    if(this.cachedShares$){
+      console.log(this.cachedShares$);
+      return this.cachedShares$;
+    }
+    const baseUrl = `${this.apiUrl}shareDetails/${symbol}.NS`
+    console.log("After return statement");
+    return this.cachedShares$ = this.http.get<Share[]>(baseUrl).pipe(
+      shareReplay(1),
+      take(1)
+    )
   }
 
-  getInfo() {
-    const baseUrl2 = `${this.apiUrl}shareInfo/${this.currentShare.symbol}.NS`
+  getInfo(symbol : string) {
+    const baseUrl2 = `${this.apiUrl}shareInfo/${symbol}.NS`
 
     return this.http.get<ShareInformation>(baseUrl2)
   }

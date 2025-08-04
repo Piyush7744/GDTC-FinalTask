@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SharesComponent } from './shares/shares.component';
-import { AllSharesComponent } from './all-shares/all-shares.component';
 import { ShareDetailComponent } from './share-detail/share-detail.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
@@ -9,10 +8,9 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  {path:"",component:HomeComponent},
+  { path: "", component: HomeComponent },
   { path: "shares", component: SharesComponent },
-  { path: "shareDetails", component: ShareDetailComponent },
-  { path: "allShares", component: AllSharesComponent },
+  { path: "shareDetails/:id", component: ShareDetailComponent },
   { path: "userDashboard", component: UserDashboardComponent },
   { path: "contact", component: ContactComponent },
   { path: "about", component: AboutComponent },

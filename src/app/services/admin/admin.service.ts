@@ -10,7 +10,8 @@ export interface Order {
   total: number,
   symbol: string,
   order_date: string,
-  email:string
+  email:string,
+  type:string
 }
 
 export interface Contact{

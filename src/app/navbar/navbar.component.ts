@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   userLogged: boolean = false;
   adminLogged: boolean = false;
   toggle: boolean = false;
-  constructor(private service: UserService, private user: UserService) {
+  constructor(private user: UserService) {
   }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
     } else if ((localStorage.getItem("token")) && (localStorage.getItem("role") == "admin")) {
       this.adminLogged = true;
     }
-    this.service.getStatus().subscribe(data => {
+    this.user.getStatus().subscribe(data => {
       this.logged = data;
     })
 
@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
     this.logged = false;
     this.userLogged = false;
     this.adminLogged = false;
-    this.service.logOut();
+    this.user.logOut();
   }
 
   toggled() {

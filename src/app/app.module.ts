@@ -11,7 +11,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SharesComponent } from './user/shares/shares.component';
-import { AllSharesComponent } from './user/all-shares/all-shares.component';
 import { Interceptor } from './interceptor/token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
@@ -30,7 +29,7 @@ import { ContactComponent } from './user/contact/contact.component';
 import { AboutComponent } from './user/about/about.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
+// import { CacheInterceptor } from './interceptor/cache-interceptor.interceptor';
 
 
 @NgModule({
@@ -42,7 +41,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     HomeComponent,
     ShareDetailComponent,
     SharesComponent,
-    AllSharesComponent,
     UserDashboardComponent,
     FooterComponent,
     ContactComponent,
@@ -74,7 +72,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,
       multi: true
-    }
+    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: CacheInterceptor,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent]
 })

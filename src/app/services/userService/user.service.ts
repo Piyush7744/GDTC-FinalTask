@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -12,8 +12,8 @@ export interface User {
   birth_date: string
 }
 
-interface RegisterUser extends User{
-  balance : number
+interface RegisterUser extends User {
+  balance: number
 }
 
 interface TokenPayload {
@@ -22,28 +22,31 @@ interface TokenPayload {
   exp: number;
 }
 
-export interface Order {
+export interface Order{
   name: string,
   price: number,
   quantity: number,
   total: number,
   symbol: string,
-  order_date: string
+  order_date: string,
+  Otype: string
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService{
   private apiUrl = 'http://localhost:8000/';
-  constructor(private http: HttpClient, private router: Router) { }
-  userData: User = {
+    userData: User = {
     name: "",
     email: "",
     aadhar: "",
     balance: 0,
     birth_date: ""
   };
+
+
+  constructor(private http: HttpClient, private router: Router) { }
 
 
   public status = new BehaviorSubject<boolean>(this.isLoggedIn());
@@ -77,6 +80,7 @@ export class UserService {
         const token = localStorage.getItem("token");
         if (token) {
           const decoded = jwtDecode<TokenPayload>(token);
+          const value = decoded.exp * 1000;
           if (decoded.role === "admin") {
             localStorage.setItem("role", decoded.role);
             this.router.navigate(['/admin/allOrders']);
@@ -88,7 +92,6 @@ export class UserService {
       })
     )
   }
-
   logOut() {
     localStorage.clear();
     this.status;
@@ -121,13 +124,17 @@ export class UserService {
     return this.http.get<Order[]>(`${this.apiUrl}userShares`);
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.status.next(false);
-  }
-
   updateBalance(newBalance: number) {
     return this.http.put(`${this.apiUrl}user/balance`, { balance: newBalance });
   }
-}
 
+ public isTokenExpired() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode<TokenPayload>(token);
+      const expiry = decoded.exp * 1000;
+      return expiry > Date.now();
+    }
+    return false;
+  }
+}
