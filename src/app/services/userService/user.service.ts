@@ -22,7 +22,7 @@ interface TokenPayload {
   exp: number;
 }
 
-export interface Order{
+export interface Order {
   name: string,
   price: number,
   quantity: number,
@@ -35,9 +35,10 @@ export interface Order{
 @Injectable({
   providedIn: 'root'
 })
-export class UserService{
+export class UserService {
+  private role: string = ""
   private apiUrl = 'http://localhost:8000/';
-    userData: User = {
+  userData: User = {
     name: "",
     email: "",
     aadhar: "",
@@ -56,6 +57,15 @@ export class UserService{
 
   getStatus(): Observable<boolean> {
     return this.status.asObservable();
+  }
+
+  getRole(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode<TokenPayload>(token);
+      this.role = decoded.role;
+    }
+    return this.role;
   }
 
   register(userData: RegisterUser) {
@@ -82,10 +92,11 @@ export class UserService{
           const decoded = jwtDecode<TokenPayload>(token);
           const value = decoded.exp * 1000;
           if (decoded.role === "admin") {
-            localStorage.setItem("role", decoded.role);
+            this.role = "admin"
             this.router.navigate(['/admin/allOrders']);
           } else {
-            localStorage.setItem("role", decoded.role);
+            this.role = "user"
+            console.log(this.role);
             this.router.navigate(['']);
           }
         }
@@ -128,7 +139,7 @@ export class UserService{
     return this.http.put(`${this.apiUrl}user/balance`, { balance: newBalance });
   }
 
- public isTokenExpired() {
+  public isTokenExpired() {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded = jwtDecode<TokenPayload>(token);

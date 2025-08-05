@@ -1,0 +1,28 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+    <mat-card *ngFor="let share of shares"
+        class="bg-gradient-to-b
+                    r from-gray-800 via-gray-900 to-gray-950 h-[220px] rounded-2xl p-6 w-full transition-all duration-300 border border-white hover:border-blue-600">
+
+        <div class="flex items-center justify-between mb-4 overflow-hidden gap-2">
+            <div class="text-blue-400 text-lg font-semibold truncate w-3/4">
+                {{ share.meta.companyName }}
+            </div>
+            <mat-chip
+                class="bg-blue-600 text-white font-semibold h-6 px-2 rounded-lg overflow-hidden text-ellipsis max-w-[80px]">
+                {{ share.symbol }}
+            </mat-chip>
+        </div>
+        <div class="mb-4">
+            <p class="text-sm text-gray-400 mb-1">Current Price:</p>
+            <p [ngClass]="share.pChange > 0 ? 'text-green-400' : 'text-red-400'" class="text-2xl font-bold">
+                ₹ {{ share.lastPrice }}
+            </p>
+        </div>
+        <div class="pt-2">
+            <button mat-raised-button color="primary" (click) = "onClick(share)"
+                class="w-full bg-blue-600 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition">
+                View Details →
+            </button>
+        </div>
+    </mat-card>
+</div>

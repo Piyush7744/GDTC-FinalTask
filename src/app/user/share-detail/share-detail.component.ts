@@ -3,6 +3,8 @@ import { SharesService, Share, ShareInformation } from '../../services/shareServ
 import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip } from 'chart.js';
 import { User, UserService } from '../../services/userService/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip);
 
 
@@ -36,7 +38,7 @@ export class ShareDetailComponent implements OnInit {
   userData: User | null = null;
   julyData: any;
   symbol = ""
-  constructor(public service: SharesService, private user: UserService, private route: ActivatedRoute) { }
+  constructor(public service: SharesService, private user: UserService, private route: ActivatedRoute, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     if (localStorage.getItem("token")) {
@@ -110,12 +112,22 @@ export class ShareDetailComponent implements OnInit {
     });
   }
 
+  openDialog() {
+    let dialogRef = this.dialog.open(DialogComponent, {data: this.shareInfo});
+    // let dialogRef = this.dialog.open(DialogComponent, { data: { name: "Piyush" } });
+    dialogRef.afterClosed().subscribe(res => {
+      console.log("After closing dialogBox", res);
+
+    })
+  }
+
   getShareData() {
     this.service.getInfo(this.symbol).subscribe(data => {
       if (this.LineChart) {
         const priceData = this.LineChart.data.datasets[0].data;
         priceData.pop();
         priceData.push(data.currentPrice);
+        this.shareInfo.currentPrice = data.currentPrice;
         this.LineChart.data.datasets[0].data = priceData;
         this.LineChart.update();
       }

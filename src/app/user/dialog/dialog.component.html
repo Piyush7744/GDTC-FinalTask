@@ -1,0 +1,40 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-6 relative">
+        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+            Share Details
+        </h2>
+
+        <p class="text-gray-700 dark:text-gray-300 mb-2">
+            <strong>Company: {{shareInfo.shortName}}</strong>
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 mb-2">
+            <strong>Symbol:{{shareInfo.symbol}}</strong>
+        </p>
+        <p class="text-gray-700 dark:text-gray-300 mb-2">
+            <strong>Price:{{shareInfo.currentPrice}}</strong>
+        </p>
+        <div class="text-gray-700 dark:text-gray-300 mb-4">
+            <label for="quantity"><strong>Quantity:</strong></label>
+            <input type="text" [(ngModel)]="quantity" name="quantity" (ngModelChange)="total()"
+                class="rounded-lg ml-5 text-black">
+        </div>
+
+        <p class="text-gray-700 dark:text-gray-300 mb-2">
+            <strong>Total :</strong>{{total1}}
+        </p>
+        <div class="flex justify-end">
+            <button mat-dialog-close mat-dialog-close="BUY"
+                class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition mr-10">
+                Buy Now
+            </button>
+            <button mat-dialog-close mat-dialog-close="SELL"
+                class="bg-red-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition mr-10">
+                Sell Now
+            </button>
+            <button mat-dialog-close class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                Close
+            </button>
+        </div>
+    </div>
+</div>

@@ -50,6 +50,7 @@ export class SharesService implements OnInit {
   private apiUrl = 'http://localhost:8000/';
 
   cachedShares$: Observable<Share[]> | undefined;
+  cachedAllShares$:Observable<ShareInfo[]> | undefined;
 
   constructor(private http: HttpClient) { }
 
@@ -58,12 +59,17 @@ export class SharesService implements OnInit {
   }
 
   fetchData() {
-    return this.http.get<ShareInfo[]>(this.apiUrl + "sharess");
+    if(this.cachedAllShares$){
+      return this.cachedAllShares$;
+    }
+    return this.cachedAllShares$ = this.http.get<ShareInfo[]>(this.apiUrl + "sharess").pipe(
+      shareReplay(1),
+      take(1)
+    )
   }
 
   getData(symbol: string) {
     if(this.cachedShares$){
-      console.log(this.cachedShares$);
       return this.cachedShares$;
     }
     const baseUrl = `${this.apiUrl}shareDetails/${symbol}.NS`

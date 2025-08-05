@@ -23,16 +23,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if ((localStorage.getItem("token")) && (localStorage.getItem("role") == "user")) {
+    if ((localStorage.getItem("token")) && (this.user.getRole() == "user")) {
       this.userLogged = true;
+      console.log("Inside user")
       this.user.getUser().subscribe(data => {
         this.userData = data;
         this.balance = this.userData.balance;
 
       })
-    } else if ((localStorage.getItem("token")) && (localStorage.getItem("role") == "admin")) {
+    } else if ((localStorage.getItem("token")) && (this.user.getRole() == "admin")) {
+      console.log("Inside admin");
       this.adminLogged = true;
     }
+
     this.user.getStatus().subscribe(data => {
       this.logged = data;
     })

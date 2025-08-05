@@ -29,6 +29,7 @@ import { ContactComponent } from './user/contact/contact.component';
 import { AboutComponent } from './user/about/about.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ShareCardComponent } from './user/share-card/share-card.component';
 // import { CacheInterceptor } from './interceptor/cache-interceptor.interceptor';
 
 
@@ -45,6 +46,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     FooterComponent,
     ContactComponent,
     AboutComponent,
+    ShareCardComponent
   ],
   imports: [
     BrowserModule,
